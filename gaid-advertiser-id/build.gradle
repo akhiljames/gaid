@@ -1,4 +1,20 @@
+apply plugin: 'com.github.panpf.bintray-publish'
 apply plugin: 'com.android.library'
+
+publish {
+
+    def groupProjectID = 'com.github.akhiljames'
+    def artifactProjectID = 'gaid'
+    def publishVersionID = '1.0.0'
+
+    userOrg = 'akhiljames'
+    repoName = 'gaid'
+    groupId = groupProjectID
+    artifactId = artifactProjectID
+    publishVersion = publishVersionID
+    desc = 'A convinient way to retrieve gaid and Is Tracking Enabled flag without any Play Services dependencies in Android applications.'
+    website = 'https://github.com/akhiljames/gaid'
+}
 
 android {
     compileSdkVersion 30
