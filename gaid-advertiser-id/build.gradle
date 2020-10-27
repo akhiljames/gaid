@@ -1,19 +1,44 @@
-apply plugin: 'com.github.panpf.bintray-publish'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
 apply plugin: 'com.android.library'
 
-publish {
+def libraryGroupId = 'com.github.akhiljames'
+def libraryArtifactId = 'gaid'
+def libraryVersion = '1.0.1'
 
-    def groupProjectID = 'com.github.akhiljames'
-    def artifactProjectID = 'gaid'
-    def publishVersionID = '1.0.0'
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            release(MavenPublication) {
+                from components.release
+                groupId = libraryGroupId
+                artifactId = libraryArtifactId
+                version = libraryVersion
+            }
+        }
+    }
+}
 
-    userOrg = 'akhiljames'
-    repoName = 'gaid'
-    groupId = groupProjectID
-    artifactId = artifactProjectID
-    publishVersion = publishVersionID
-    desc = 'A convinient way to retrieve gaid and Is Tracking Enabled flag without any Play Services dependencies in Android applications.'
-    website = 'https://github.com/akhiljames/gaid'
+bintray {
+    user = System.getenv('BINTRAY_USER')
+    key = System.getenv('BINTRAY_KEY')
+    publications = ['release']
+    publish = true
+    override = true
+    pkg {
+        repo = 'gaid'
+        name = libraryArtifactId
+        desc = 'A convinient way to retrieve Advertising ID and Is Tracking Enabled flag without any Play Services dependencies in Android applications.'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/akhiljames/gaid.git'
+        publicDownloadNumbers = true
+        version {
+            name = libraryVersion
+            released = new Date()
+        }
+    }
 }
 
 android {
@@ -44,5 +69,4 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-
 }
