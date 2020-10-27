@@ -1,0 +1,3 @@
+include ':gaid'
+include ':gaid-advertiser-id'
+rootProject.name = "GAID Example"
